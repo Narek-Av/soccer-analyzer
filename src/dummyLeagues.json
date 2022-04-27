@@ -17,6 +17,16 @@
               "Appearances": 35,
               "Tackle": 3
             }
+          },
+          {
+            "id": "l1t1g2",
+            "type": "player",
+            "name": "Cristian Ericsen",
+            "stats": {
+              "Goals": 7,
+              "Appearances": 23,
+              "Tackle": 4
+            }
           }
         ]
       },
