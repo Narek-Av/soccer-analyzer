@@ -79,7 +79,7 @@ export default function Sidebar() {
                           selectType.includes("player") ? " disabled" : ""
                         }`}
                         onDragEnd={handleDragEnd}
-                        draggable={!selected && selectType !== "player"}
+                        draggable={!selected && !selectType.includes("player")}
                       >
                         {name}
                       </span>
