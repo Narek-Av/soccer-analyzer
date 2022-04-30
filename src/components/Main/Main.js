@@ -16,6 +16,8 @@ export default function Main() {
     e.target.classList.add("over");
     return false;
   };
+  
+  console.log('Added console log from remote sprint 1');
 
   const clearOver = (e) => {
     e.target.classList.remove("over");
