@@ -1,27 +1,33 @@
-import React from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { ReactComponent as DownIcon } from "../../assets/icons/down-icon.svg";
+import React from "react"
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import { ReactComponent as DownIcon } from "../../assets/icons/down-icon.svg"
 
-import "./Sidebar.css";
+import "./Sidebar.css"
 
 export default function Sidebar() {
-  const leagues = useSelector((state) => state.leagues);
-  const selectType = useSelector((state) => state.selectType);
-  const [activeItem, setActiveItem] = useState([]);
+  const leagues = useSelector((state) => state.leagues)
+  const selectType = useSelector((state) => state.selectType)
+  const [activeItem, setActiveItem] = useState([])
 
   const handleDragStart = (e, data) => {
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("type/element", JSON.stringify(data));
+    e.dataTransfer.effectAllowed = "move"
+    e.dataTransfer.setData("type/element", JSON.stringify(data))
 
     setTimeout(() => {
-      e.target.classList.add("hide");
-    }, 0);
-  };
+      e.target.classList.add("hide")
+    }, 0)
+  }
 
   const handleDragEnd = (e) => {
-    e.target.classList.remove("hide");
-  };
+    e.target.classList.remove("hide")
+  }
+
+  console.log("Added console log from git feature")
+
+  console.log("Added ohter console log")
+
+  console.log("Added second console log")
 
   return (
     <div className="sidebar-container">
@@ -100,5 +106,5 @@ export default function Sidebar() {
         ))}
       </ul>
     </div>
-  );
+  )
 }
