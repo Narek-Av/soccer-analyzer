@@ -1,90 +1,88 @@
-import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { toggleElement } from "../../store/actions";
+import React from "react"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { toggleElement } from "../../store/actions"
 
-import "./Main.css";
+import "./Main.css"
 
 export default function Main() {
-  const [leftElement, setLeftElement] = useState();
-  const [rightElement, setRightElement] = useState();
+  const [leftElement, setLeftElement] = useState()
+  const [rightElement, setRightElement] = useState()
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleDragOver = (e) => {
-    e.preventDefault();
-    e.target.classList.add("over");
-    return false;
-  };
-  
-  console.log('Added console log from remote sprint 1');
+    e.preventDefault()
+    e.target.classList.add("over")
+    return false
+  }
 
   const clearOver = (e) => {
-    e.target.classList.remove("over");
-  };
+    e.target.classList.remove("over")
+  }
 
   const handleDrop = (e) => {
-    clearOver(e);
+    clearOver(e)
 
-    const droppedElement = JSON.parse(e.dataTransfer.getData("type/element"));
+    const droppedElement = JSON.parse(e.dataTransfer.getData("type/element"))
 
     if (droppedElement.type === "team") {
       droppedElement.stats = {
         [`Goals Average`]: calculateAverage(droppedElement.players),
-      };
+      }
     }
 
     if (!leftElement) {
-      setLeftElement({ ...droppedElement, position: "left" });
+      setLeftElement({ ...droppedElement, position: "left" })
     } else if (leftElement && rightElement) {
-      dispatch(toggleElement(leftElement.id, true));
-      setLeftElement({ ...rightElement, position: "left" });
-      setRightElement({ ...droppedElement, position: "right" });
-      compareStatistics(rightElement, droppedElement);
+      dispatch(toggleElement(leftElement.id, true))
+      setLeftElement({ ...rightElement, position: "left" })
+      setRightElement({ ...droppedElement, position: "right" })
+      compareStatistics(rightElement, droppedElement)
     } else {
-      setRightElement({ ...droppedElement, position: "right" });
-      compareStatistics(leftElement, droppedElement);
+      setRightElement({ ...droppedElement, position: "right" })
+      compareStatistics(leftElement, droppedElement)
     }
 
-    dispatch(toggleElement(droppedElement.id));
-  };
+    dispatch(toggleElement(droppedElement.id))
+  }
 
   const compareStatistics = (left, right) => {
     let leftStats = {},
-      rightStats = {};
+      rightStats = {}
     Object.entries(left.stats).map(([lName, lValue]) =>
       Object.entries(right.stats).map(([rName, rValue]) => {
         if (lName === rName) {
-          let lInfo = lValue;
-          let rInfo = rValue;
+          let lInfo = lValue
+          let rInfo = rValue
           if (typeof lValue === "number") {
-            lInfo = { value: lValue, stat: "" };
+            lInfo = { value: lValue, stat: "" }
           }
 
           if (typeof rValue === "number") {
-            rInfo = { value: rValue, stat: "" };
+            rInfo = { value: rValue, stat: "" }
           }
           if (rInfo.value > lInfo.value) {
-            rInfo.stat = "big";
-            lInfo.stat = "small";
+            rInfo.stat = "big"
+            lInfo.stat = "small"
           } else if (rInfo.value < lInfo.value) {
-            rInfo.stat = "small";
-            lInfo.stat = "big";
+            rInfo.stat = "small"
+            lInfo.stat = "big"
           } else {
-            rInfo.stat = "equal";
-            lInfo.stat = "equal";
+            rInfo.stat = "equal"
+            lInfo.stat = "equal"
           }
 
-          leftStats[lName] = lInfo;
-          rightStats[rName] = rInfo;
+          leftStats[lName] = lInfo
+          rightStats[rName] = rInfo
         }
-        return null;
+        return null
       })
-    );
+    )
 
-    setLeftElement((lEl) => ({ ...lEl, stats: leftStats }));
-    setRightElement((rEl) => ({ ...rEl, stats: rightStats }));
-  };
+    setLeftElement((lEl) => ({ ...lEl, stats: leftStats }))
+    setRightElement((rEl) => ({ ...rEl, stats: rightStats }))
+  }
 
   const renderStats = (stats) => {
     return Object.entries(stats).map(([name, info]) => (
@@ -95,25 +93,25 @@ export default function Main() {
       >
         {name} : <span>{info.value ? info.value : info}</span>
       </div>
-    ));
-  };
+    ))
+  }
 
   const dropElementHandle = (el) => {
     if (el.position === "left") {
-      setLeftElement();
+      setLeftElement()
     } else {
-      setRightElement();
+      setRightElement()
     }
-    dispatch(toggleElement(el.id, true));
-  };
+    dispatch(toggleElement(el.id, true))
+  }
 
   const calculateAverage = (players) => {
     const goalsCount = players.reduce((counter, player) => {
-      return counter + player.stats.Goals;
-    }, 0);
-    const average = goalsCount / players.length;
-    return +average.toFixed(2);
-  };
+      return counter + player.stats.Goals
+    }, 0)
+    const average = goalsCount / players.length
+    return +average.toFixed(2)
+  }
 
   const renderCard = (element) => {
     return (
@@ -133,8 +131,8 @@ export default function Main() {
           {renderStats(element.stats)}
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div
@@ -150,5 +148,5 @@ export default function Main() {
         renderCard(rightElement)
       )}
     </div>
-  );
+  )
 }
